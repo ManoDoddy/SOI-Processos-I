@@ -90,13 +90,7 @@ public class RedesController {
 			String command = "ping -4 -n 10 www.google.com.br";
 			String ping = callProcess(command);
 			String vet[] = ping.split(" ");
-			
-			String result="";
-			for (int i = 0; i < vet.length; i++) {
-				if(vet[i].equals("M�dia")) {
-					result = "Ping: www.google.com.br\nM�dia = " + vet[i+2] + "\n";
-				}
-			}
+			String result = "Ping: www.google.com.br\nMedia = " + vet[vet.length-1] + "\n";
 			
 			return result;
 		}else {
@@ -113,7 +107,7 @@ public class RedesController {
 				}
 			}
 			media/=count;
-			String result = "Ping: www.google.com.br\nMédia = "+media+"ms\n";
+			String result = "Ping: www.google.com.br\nMedia = "+media+"ms\n";
 			return result;
 		}
 	}

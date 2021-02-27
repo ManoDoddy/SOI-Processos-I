@@ -11,7 +11,6 @@ public class Main {
 		
 		RedesController rc = new RedesController();
 		String so = rc.so();
-		
 		int option;
 		
 		do {
@@ -21,7 +20,7 @@ public class Main {
 			option = in.nextInt();
 			
 			if(option==1) {
-				System.out.println(rc.ip(so));
+				System.out.print(rc.ip(so));
 			}else if(option==2) {
 				System.out.println(rc.ping(so));
 			}

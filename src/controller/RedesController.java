@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 
 
 public class RedesController {
@@ -42,7 +43,6 @@ public class RedesController {
 		if(so.equals("Windows 10")) {
 			String command = "ipconfig";
 			String ip = callProcess(command);
-			System.out.println(ip);
 			String vet[] = ip.split(" ");
 			
 			String result="";
@@ -71,8 +71,17 @@ public class RedesController {
 		}else {
 			String command = "ifconfig";
 			String ip = callProcess(command);
+			String vet[] = ip.split(" ");
+			String result=vet[0].replace(":", "")+"\n";
+			for (int i = 0; i < vet.length; i++) {
+				if(vet[i].contains("inet") && !vet[i].contains("inet6")) {
+					result+=vet[i+1]+"\n\n";
+				}else if(vet[i].contains("collisions")) {
+					result+=vet[i+1].substring(1).replace(":", "")+"\n";
+				}
+			}
 			
-			return null;
+			return result;
 		}
 	}
 	
@@ -84,8 +93,8 @@ public class RedesController {
 			
 			String result="";
 			for (int i = 0; i < vet.length; i++) {
-				if(vet[i].equals("M‚dia")) {
-					result = "Ping: www.google.com.br\nMédia = " + vet[i+2] + "\n";
+				if(vet[i].equals("Mï¿½dia")) {
+					result = "Ping: www.google.com.br\nMï¿½dia = " + vet[i+2] + "\n";
 				}
 			}
 			
@@ -93,8 +102,19 @@ public class RedesController {
 		}else {
 			String command = "ping -4 -c 10 www.google.com.br";
 			String ping = callProcess(command);
+			String vet[] = ping.split(" ");
 			
-			return null;
+			double media=0;
+			double count=0;
+			for (int i = 0; i < vet.length; i++) {
+				if(vet[i].contains("tempo=")) {
+					media+=Double.parseDouble(vet[i].substring(6));
+					count++;
+				}
+			}
+			media/=count;
+			String result = "Ping: www.google.com.br\nMÃ©dia = "+media+"ms\n";
+			return result;
 		}
 	}
 	

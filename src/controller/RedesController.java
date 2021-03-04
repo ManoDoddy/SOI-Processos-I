@@ -40,22 +40,26 @@ public class RedesController {
 	}
 	
 	public String ip(String so) {
-		if(so.equals("Windows 10")) {
+		if(so.contains("Windows")) {
 			String command = "ipconfig";
 			String ip = callProcess(command);
 			String vet[] = ip.split(" ");
-			
+		
 			String result="";
 			for (int i = 0; i < vet.length; i++) {
 				if(vet[i].equals("Adaptador") || vet[i].equals("WindowsAdaptador")) {
-					result+="Adaptador ";
 					for (int j = i+1; j < vet.length; j++) {
-						if(!vet[j].contains(":")) {
-							result+=vet[j]+" ";
-						}else {
-							result+=vet[j].replace(":", "\n");
-							break;
-						}
+						if(vet[j].equals("IPv4.")) {
+							result += "Adaptador ";
+							for (int j2 = i+1; j2 < vet.length; j2++) {
+								if(!vet[j2].contains(":")) {
+									result+=vet[j2]+" ";
+								}else {
+									result+=vet[j2].replace(":", "\n");
+									break;
+								}
+							}
+						}else if(vet[j].equals("Adaptador")) break;
 					}
 				}else if(vet[i].equals("IPv4.")) {
 					for (int j = i+1; j < vet.length; j++) {
@@ -86,7 +90,7 @@ public class RedesController {
 	}
 	
 	public String ping(String so) {
-		if(so.equals("Windows 10")) {
+		if(so.contains("Windows")) {
 			String command = "ping -4 -n 10 www.google.com.br";
 			String ping = callProcess(command);
 			String vet[] = ping.split(" ");
